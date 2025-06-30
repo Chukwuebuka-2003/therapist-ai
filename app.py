@@ -9,7 +9,7 @@ load_dotenv()
 
 
 @st.cache_data
-def load_config(filepath="therapist_chatbot_prompt.yaml"):
+def load_config(filepath="therapist_prompt.yaml"):
     """
     Loads the chatbot configuration from a YAML file.
     The use of @st.cache_data ensures the file is loaded only once.
