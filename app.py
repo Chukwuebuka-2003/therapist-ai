@@ -9,7 +9,7 @@ load_dotenv()
 
 
 @st.cache_data
-def load_config(filepath="therapist_prompt.yaml"):
+def load_config(filepath="therapist_chatbot_prompt.yaml"):
     """
     Loads the chatbot configuration from a YAML file.
     The use of @st.cache_data ensures the file is loaded only once.
@@ -97,27 +97,13 @@ st.markdown("---")
 
 with st.sidebar:
     st.header("Configuration")
-    st.markdown("To use this chatbot, you need a Google API Key.")
-    # Try getting the key from Streamlit Cloud, then .env, then manual input.
-    api_key = None
+    st.markdown("This app is deployed on Streamlit Cloud and requires a `GOOGLE_API_KEY` to be set in the secrets manager.")
 
-    # 1. Try Streamlit Cloud secrets (for deployment)
-    if hasattr(st, "secrets") and "GOOGLE_API_KEY" in st.secrets:
-        api_key = st.secrets["GOOGLE_API_KEY"]
-        st.success("API Key loaded from Streamlit Cloud.")
-    # 2. Fallback to .env file (for local development)
-    else:
-        api_key = os.getenv("GOOGLE_API_KEY")
-        if api_key:
-            st.success("API Key loaded from local .env file.")
-
-    # 3. If still no key, ask for manual input as a last resort
-    if not api_key:
-        st.warning("API Key not found. Please provide your key to continue.")
-        api_key = st.text_input("Enter your Google API Key", type="password", help="You can get a key from Google AI Studio.")
-
-if not api_key:
-    st.info("Please enter your Google API Key in the sidebar to start the chat.")
+# Attempt to get key from Streamlit Cloud secrets.
+if hasattr(st, "secrets") and "GOOGLE_API_KEY" in st.secrets:
+    api_key = st.secrets["GOOGLE_API_KEY"]
+else:
+    st.error("`GOOGLE_API_KEY` not found in secrets. Please set it in your Streamlit Cloud app settings.")
     st.stop()
 
 try:
