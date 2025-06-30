@@ -1,2 +1,2 @@
 # therapist-ai
-a working therapist ai
+a working therapy ai
